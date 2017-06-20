@@ -1,0 +1,3 @@
+/*移动端底部1px解决方法*/
+.border1px{position: relative;}
+.border1px:after{display: block;position: absolute;left: 0;bottom:0;width: 100%;border-top: 1px solid rgba(7,17,27,0.1);content: ' ';}
