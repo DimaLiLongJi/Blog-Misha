@@ -1,5 +1,5 @@
 function Elem(id) {
-	this.element = document.getElementById(id)
+	this.element = document.querySelectorAll(id)
 }
 Elem.prototype.html = function(val) {
 	let elem = this.element
