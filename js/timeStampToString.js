@@ -15,6 +15,7 @@ function timeStampToString(time) {
     second + ":" + mseconds;
 }
 
+// date格式转时间戳
 function dateToTimeStamp(date) {
   return new Date().setTime(date);
 }
