@@ -1,0 +1,16 @@
+{
+  "package": [
+    {
+      "js": "public/app/modules/app/pc/index",
+      "vendor": "public/app/modules/app/pc/style",
+      "style": "public/app/modules/app/pc/style",
+      "outName": "app-main"
+    },
+    {
+      "js": "public/app/modules/auth/index",
+      "vendor": "public/app/modules/auth/style",
+      "style": "public/app/modules/auth/style",
+      "outName": "auth"
+    }
+  ]
+}
