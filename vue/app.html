@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>测试</title>
+  <script src="./index.js"></script>
+</head>
+
+<body>
+  <!-- id='app' 为挂载点 -->
+  <div id="app" style="padding-bottom:40px;background-image:url('/images/index-bg.jpg');background-repeat:no-repeat;background-attachment:fixed;background-size:cover;">
+    <nav-v :user='user'></nav-v>
+    <question-form></question-form>
+  </div>
+
+  <!-- router-view 为路由的地方 -->
+  <router-view class="view"></router-view>
+  <!-- router-link a标签 -->
+  <router-link to="/account">账号管理</router-link>
+</body>
+</html>
