@@ -1,7 +1,15 @@
-# summary
+# 我的博客
 
-### parcel `./parcel`
+### component 组件总计
 
-### webpack `./webpack`
+### css css的一些总结
 
-### vue `./vue`
+### vue
+
+### js
+
+### parcel 新一代打包神器
+
+### webpack 打包神器
+
+### angularJs angular1
