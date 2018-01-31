@@ -1,0 +1,275 @@
+<div class="student-list">
+	<div class="section-title">
+		<a class="btn small-btn green" ui-sref="student.create" ng-click="vm.setStateParams()" ng-if="!vm.isBD">录入学员</a>
+		<a class="btn small-btn green" ui-sref="student.import" ng-if="!vm.isBD">从Excel导入</a>
+		<a class="btn small-btn hollow-green" ng-click="vm.clearParams()">清空筛选条件</a>
+	</div>
+	<div class="search-container">
+		<div class="row">
+			<label class="col-xs-2 filter-label">目标标签</label>
+			<div class="input-wrap">
+				<ui-select ng-model="vm.searchParams.targetTagId" on-select="vm.changeState()" reset-search-input="true">
+					<ui-select-match placeholder="选择目标标签">
+						<span ng-bind="$select.selected.name"></span>
+					</ui-select-match>
+					<ui-select-choices repeat="tag.id as tag in vm.targetTagArray">
+						<span ng-bind-html="tag.name"></span>
+					</ui-select-choices>
+				</ui-select>
+			</div>
+			<label class="col-xs-2 filter-label">毕业时间</label>
+			<div class="graduate-date-search">
+				<div class="datepicker">
+					<input type="text" class="input" uib-datepicker-popup="yyyy-MM" ng-model="vm.searchParams.gradDateFrom" is-open="vm.gradDateFromPopupOpened" datepicker-options="vm.dateOptions" ng-click="vm.gradDateFromPopupOpened = !vm.gradDateFromPopupOpened" ng-required="true"
+					  close-text="关闭" placeholder="起始日期" ng-change="vm.changeState()" />
+				</div>
+				-
+				<div class="datepicker">
+					<input type="text" class="input" uib-datepicker-popup="yyyy-MM" ng-model="vm.searchParams.gradDateTo" is-open="vm.gradDateToPopupOpened" datepicker-options="vm.dateOptions" ng-click="vm.gradDateToPopupOpened = !vm.gradDateToPopupOpened" ng-required="true"
+					  close-text="关闭" placeholder="终止日期" ng-change="vm.changeState()" />
+				</div>
+			</div>
+			<label for="autoCompleteInput" class="col-xs-2 filter-label">模糊搜索</label>
+			<div class="input-wrap">
+				<input style="width:312px;" class="input" id="autoCompleteInput" ng-enter="vm.changeState()" ng-model="vm.searchParams.keyword" placeholder="姓名/手机号/邮箱/可工作地 回车" class="input">
+			</div>
+		</div>
+		<div class="filter-more" ng-if="vm.showFilterMore">
+			<div class="row">
+				<label class="col-xs-2 filter-label">学历不低于</label>
+				<div class="input-wrap">
+					<ui-select ng-model="vm.searchParams.degree" on-select="vm.changeState()" reset-search-input="true">
+						<ui-select-match placeholder="选择学历">
+							<span ng-bind="$select.selected.name"></span>
+						</ui-select-match>
+						<ui-select-choices repeat="d.name as d in vm.degree">
+							<span ng-bind="d.name"></span>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+				<label class="col-xs-2 filter-label">学校</label>
+				<div class="input-wrap">
+					<search-school-selector placeholder="请输入学校名称" selected-school="vm.searchParams.school" on-select="vm.changeState({school})"></search-school-selector>
+				</div>
+				<label class="col-xs-2 filter-label">学校类别</label>
+				<div class="input-wrap" style="width: 240px;">
+					<div class="check-group" ng-repeat="st in vm.schoolType">
+						<label ng-bind="st.name" for="{{st.char}}"></label>
+						<input type="checkbox" name="{{st.char}}" ng-model="vm.searchParams[st.char]" value="{{st.char}}" ng-true-value=1 ng-false-value=0 ng-change="vm.changeState()" style="margin-right: 10px;">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<label class="col-xs-2 filter-label">性别</label>
+				<div class="input-wrap">
+					<ui-select ng-model="vm.searchParams.gender" on-select="vm.changeState()" reset-search-input="true">
+						<ui-select-match placeholder="选择性别">
+							<span ng-bind="$select.selected.name"></span>
+						</ui-select-match>
+						<ui-select-choices repeat="g.code as g in vm.gender">
+							<span ng-bind="g.name"></span>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+				<label class="col-xs-2 filter-label">服务状态</label>
+				<div class="input-wrap">
+					<ui-select ng-model="vm.searchParams.serviceStatus" on-select="vm.changeState()" reset-search-input="true">
+						<ui-select-match placeholder="选择服务状态">
+							<span ng-bind="$select.selected.name"></span>
+						</ui-select-match>
+						<ui-select-choices repeat="s.status as s in vm.serviceStatusFilterArray">
+							<span ng-bind="s.name"></span>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+				<label class="col-xs-2 filter-label">购买产品</label>
+				<div class="input-wrap">
+					<ui-select ng-model="vm.searchParams.productCategory" on-select="vm.changeState()" reset-search-input="true">
+						<ui-select-match placeholder="选择产品类型">
+							<span>{{$select.selected.name}}</span>
+						</ui-select-match>
+						<ui-select-choices repeat="p.id as p in vm.productArray"  group-by="'country'" group-filter="['原来','英国','美国','中国']">
+							<span ng-bind="p.shortName"></span>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+			</div>
+			<div class="row">
+				<label class="col-xs-2 filter-label">共享状态</label>
+				<div class="input-wrap" style="width:150px;margin-right:30px;">
+					<ui-select ng-model="vm.searchParams.shareStatus" on-select="vm.changeState()" reset-search-input="true">
+						<ui-select-match placeholder="选择共享状态">
+							<span ng-bind="$select.selected.name"></span>
+						</ui-select-match>
+						<ui-select-choices repeat="status in vm.shareStatus track by status.code">
+							<span ng-bind-html="status.name"></span>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+				<label class="col-xs-2 filter-label" ng-if="vm.isAdministrator">服务顾问</label>
+				<div class="input-wrap" ng-if="vm.isAdministrator" style="width:150px;margin-right:30px;">
+					<search-consultant-selector selected-item="vm.searchParams.consultant" selector-label="vm.consultantSelectorLabel" search-autocomplete="vm.searchConsultant" on-select="vm.changeState({consultant})"></search-consultant-selector>
+				</div>
+			</div>
+		</div>
+		<div class="row search-student-result">
+			<div class="col-md-6">
+				共搜索到
+				<span class="nub">{{vm.totalItems}}</span> 条记录
+				<button class="btn small-btn green" type="button" name="button" ng-click="vm.changeState(0)">
+						<span ng-if="!vm.showFilterMore">更多筛选</span>
+						<span ng-if="vm.showFilterMore">收起</span>
+					</button>
+			</div>
+			<uib-pager class="pager" total-items="vm.totalItems" ng-model="vm.pageNum" ng-change="vm.pageChanged()" previous-text="上一页" next-text="下一页"></uib-pager>
+		</div>
+	</div>
+	<main>
+		<table class="main-table">
+			<thead>
+				<tr>
+					<th class="student-title">学员</th>
+					<th class="service-status-title">服务状态</th>
+					<th class="contact-title">基本信息</th>
+					<th class="edution-title">教育信息</th>
+					<th class="target-tag-title">目标标签</th>
+					<th class="product-title">产品类型</th>
+					<th class="operation-title" ng-if="!vm.isBD">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="s in vm.students" ng-class="{'highlight': s.highlight,'blink': s.id==vm.modifiedId}">
+					<td>
+						<ul class="info-list-inline">
+							<li>
+								<span>{{s.id}}</span>
+							</li>
+							<li>
+								<span>{{s.name}}</span>
+							</li>
+							<li>
+								<span ng-if="s.gender">{{s.gender | gender}}</span>
+							</li>
+						</ul>
+					</td>
+					<td>
+						<ui-select ng-model="s.serviceStatus" on-select="vm.updateServiceStatus(s)" reset-search-input="true">
+							{{s.serviceStatus.name}}
+							<ui-select-match placeholder="选择服务状态">
+								<span ng-bind="$select.selected.name"></span>
+							</ui-select-match>
+							<ui-select-choices repeat="status in (vm.serviceStatusArray | filter: $select.search) track by status.status">
+								<span ng-bind="status.name"></span>
+							</ui-select-choices>
+						</ui-select>
+						<span ng-if="s.lastContact && s.lastContact !== '0'" class="newest-contact">最近跟进：{{s.lastContact | fromNowFilter}}</span>
+						<span ng-if="s.lastContact == 0" class="newest-contact">无跟进记录</span>
+
+						<ul class="info-list-inline">
+							<li>
+								目前地区：
+								<span ng-if="s.currentLocation">{{s.currentLocation}}</span>
+								<span ng-if="!s.currentLocation" class="danger-color">--</span>
+							</li>
+						</ul>
+					</td>
+					<td>
+						<ul class="info-list-inline">
+							<li ng-class="{'danger-color': !s.scheduleStatus}">
+								排课状态：
+								<span ng-class="{'danger-color': s.warningStatus}">{{s.scheduleStatus | scheduleStatusName}}</span>
+							</li>
+							<li ng-click="vm.viewClientPage(s.id)">
+								学员中心：
+								<span ng-show="s.openid">已绑微信</span>
+								<span ng-show="(!s.openid && s.password)">已设密码，未绑微信</span>
+								<span ng-show="(!s.password && s.inviteSent)">已发邀请，<span class="danger-color">未设密码</span></span>
+								<span ng-class="{'danger-color': !s.inviteSent}" ng-show="!s.password && !s.inviteSent">未发邀请</span>
+							</li>
+							<li ng-class="{'danger-color': !s.Consultant.name}">
+								顾问：
+								<span>
+									{{s.Consultant.name}}
+								</span>
+							</li>
+							<li class="resume-link">
+								简历：<a ng-click="vm.openFilePreviewModal(s.resume)">{{s.resume.originalName}}</a>
+							</li>
+						</ul>
+					</td>
+					<td>
+						<ul class="info-list-inline">
+							<li>
+								学校：
+								<span>
+									{{s.School.name}}
+								</span>
+							</li>
+							<li>
+								学历：
+								<span>
+									{{s.highestDegree}}
+								</span>
+							</li>
+							<li>
+								毕业年月：
+								<span>{{s.graduateDate | studentGraduateDate}}</span>
+							</li>
+							<li>
+								专业：
+								<span>{{s.major}}</span>
+							</li>
+						</ul>
+					</td>
+					<td>
+						<div class="">
+							行业：
+							<span ng-repeat="t in s.industries">  {{t.name}}  </span>
+						</div>
+						<div class="">
+							职位：
+							<span ng-repeat="t in s.professions">  {{t.name}}  </span>
+						</div>
+						<div class="">
+							可工作地：
+							<span ng-repeat="l in s.targetLocations">{{l.name}} </span>
+						</div>
+					</td>
+					<td>
+						<span>{{s.productCategory | studentProduct:vm.productArray}}</span>
+					</td>
+					<td ng-if="!vm.isBD">
+						<ul class="info-list-inline">
+							<li>
+								<a ui-sref="student.edit({id: s.id})" ng-click="vm.setStateParams()">详情&编辑</a>
+							</li>
+							<li>
+								<a ng-click="vm.showFollowUpPanel(s)">沟通&跟进</a>
+							</li>
+							<li>
+								<a ui-sref="student.courses({id: s.id})">配置课表</a>
+							</li>
+						</ul>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<p class="emptyPrompt" ng-if="!vm.students">
+			正在搜索...
+		</p>
+		<p class="emptyPrompt" ng-if="vm.students && vm.students.length === 0">
+			没有符合条件的学员
+		</p>
+		<div align="center">
+			<uib-pagination class="pagination-sm" previous-text="上一页" next-text="下一页" total-items="vm.totalItems" items-per-page="vm.searchParams.itemsPerPage" ng-model="vm.pageNum" max-size="5" ng-change="vm.pageChanged()" force-ellipses="true"></uib-pagination>
+		</div>
+		<script type="text/ng-template" id="tagsPopoverTemplate.html">
+			<div class="tag-popover">
+				<button ng-repeat="tag in dynamicPopover.tags" type="button" class="btn btn-sm hollow-gray">
+	        {{tag.name}}
+	      </button>
+			</div>
+		</script>
+	</main>
+</div>
+<student-followup student="vm.student" state-params="vm.params"></student-followup>

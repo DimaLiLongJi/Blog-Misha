@@ -1,0 +1,32 @@
+import 'babel-polyfill';
+import 'jquery';
+import 'jquery-ui';
+import 'bootstrap';
+import 'angular';
+import 'angular-animate';
+import 'angular-cookies';
+import 'angular-resource';
+import 'angular-sanitize';
+import 'angular-touch';
+import 'angular-messages';
+import 'angular-ui-bootstrap/dist/ui-bootstrap-tpls';
+import 'ui-select';
+import 'ng-file-upload';
+import 'angular-sessionstorage';
+import 'angular-bootstrap-datetimepicker';
+import 'angular-i18n/angular-locale_zh-cn';
+import 'checklist-model';
+import 'angular-ui-sortable';
+import 'angular-ui-switch';
+import 'oclazyload';
+import 'moment';
+
+import 'ui-router';
+
+import './main';
+import '../routes';
+import '../config';
+import '../constants';
+import '../services';
+import '../filters';
+import '../directives';
