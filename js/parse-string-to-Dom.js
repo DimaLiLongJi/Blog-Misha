@@ -1,4 +1,4 @@
-class stringToDOM {
+class StringToDOM {
   parseDom = (str) => {
     const objE = document.createElement("div");
     if (typeof str === "string") {
@@ -8,8 +8,6 @@ class stringToDOM {
       return [];
     }
   };
-
-  createDoM = this.parseDom('<div id="fullscreen-close"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-guanbi1" /></svg></div>')[0];
 }
 
-console.log('createDoM', new stringToDOM().createDoM);
+console.log('createDoM', new StringToDOM().parseDom('<div id="fullscreen-close"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-guanbi1" /></svg></div>')[0]);
