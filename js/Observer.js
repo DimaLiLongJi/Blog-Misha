@@ -13,11 +13,15 @@ export class EventEmitter {
     }
   }
 
-  emit(eventName) {
+  emit(eventName, data) {
     if (this.handelFn[eventName] && this.handelFn[eventName] instanceof Array) {
       this.handelFn[eventName].forEach((callback) => {
         if (callback && callback instanceof Function) {
-          callback();
+          // callback();
+          const funcs = this.handelFn[eventName];
+          funcs.forEach(fn => {
+            fn.call(null, data);
+          });
         }
       });
     } else {
@@ -42,12 +46,12 @@ export class EventEmitter {
   }
 }
 
-// function el1() {
-//   console.log('222');
+// function el1(data) {
+//   console.log('data', data);
 // }
 // let event = new EventEmitter();
 // event.on('chufa', el1);
-// event.emit('chufa');
+// event.emit('chufa', { a: 1 });
 // event.remove('chufa');
 
 export class Observable {
