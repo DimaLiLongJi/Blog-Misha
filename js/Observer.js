@@ -1,4 +1,4 @@
-export class Event {
+export class EventEmitter {
   constructor() {
     console.log('init Event');
     this.handelFn = {};
@@ -45,7 +45,7 @@ export class Event {
 // function el1() {
 //   console.log('222');
 // }
-// let event = new Event();
+// let event = new EventEmitter();
 // event.on('chufa', el1);
 // event.emit('chufa');
 // event.remove('chufa');

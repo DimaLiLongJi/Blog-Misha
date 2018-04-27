@@ -1,3 +1,4 @@
+const _ = require('lodash');
 // 对象key首字母改成小写
 function beautifyObj(obj) {
   const result = _.transform(obj, (entry, val, key) => {
@@ -17,4 +18,27 @@ function beautifyObj(obj) {
     }
   });
   return result;
+}
+
+function dealEmptyValue(obj) {
+  let result = obj;
+  if (!obj) {
+    if (obj !== 0) result = null;
+  } else if (typeof obj === 'object' && _.isEmpty(obj)) {
+    result = null;
+  }
+  return result;
+}
+
+function resolveArr(arr) {
+  arr.forEach((tempVal, index) => {
+    const newTempVal = dealEmptyValue(tempVal);
+    arr[index] = newTempVal;
+    if (newTempVal && Object.prototype.toString.call(newTempVal) === '[object Object]') {
+      arr[index] = beautifyObj(newTempVal);
+    } else if (newTempVal && Object.prototype.toString.call(newTempVal) === '[object Array]') {
+      arr[index] = resolveArr(newTempVal);
+    }
+  });
+  return arr;
 }
