@@ -18,9 +18,6 @@
   </body>
   <script type="text/javascript">
     const testThis = {};
-    testThis.showAlert = () => {
-       console.log('箭头函数的this === window :', this === window);
-    };
     class R1 extends Controller {
       constructor() {
         super();
@@ -49,8 +46,8 @@
         console.log('newData Component:', newData);
       }
       showAlert() {
+        alert('我错了 点下控制台看看吧');
         this.setState('a',2);
-        alert('草拟吗1');
       }
     }
 
@@ -82,8 +79,8 @@
         console.log('is $onDestory');
       }
       showAlert() {
+        alert('我错了 点下控制台看看吧');
         this.setState('a',2);
-        alert('草拟吗2');
       }
     }
 
