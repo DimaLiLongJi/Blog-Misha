@@ -1,7 +1,7 @@
 class StringToDOM {
   parseDom = (str) => {
-    const objE = document.createElement("div");
-    if (typeof str === "string") {
+    const objE = document.createElement('div');
+    if (typeof str === 'string') {
       objE.innerHTML = str;
       return objE.children;
     } else {
